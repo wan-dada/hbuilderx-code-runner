@@ -1,0 +1,67 @@
+{
+    "id": "code-runner",
+    "name": "code-runner",
+    "description": "运行代码/文件到终端，支持c、c++、cmd、Bash/Shell、Go、Python、PHP、Java、JavaScript、TypeScript等各种语言",
+    "displayName": "code-runner",
+    "version": "0.0.1",
+    "publisher": "oneone",
+    "engines": {
+        "HBuilderX": "^3.1.19"
+    },
+    "categories": [
+        "Other"
+    ],
+    "main": "./extension",
+    "activationEvents": [
+        "onCommand:codeRunner.run",
+        "onCommand:codeRunner.LanguageExecutorMap"
+    ],
+    "contributes": {
+        "commands": [{
+            "command": "codeRunner.run",
+            "title": "Run Code"
+        }, {
+            "command": "codeRunner.LanguageExecutorMap",
+            "title": "ExecutorMap"
+        }],
+        "menus": {
+            "editor/context": [{
+                    "command": "codeRunner.run",
+                    "group": "copy",
+                    "when": "editorTextFocus"
+                },
+                {
+                    "group": "copy"
+                }
+            ],
+            "explorer/context": [{
+                "command": "codeRunner.run",
+                "group": "openInExplorer",
+                "when": "explorerResourceCount == 1 && !explorerResourceIsWorkspaceFolder"
+            }, {
+                "group": "openInExplorer"
+            }],
+            "menubar/tool": [
+                {
+                    "title": "Code-Runner",
+                    "group": "ext_settings",
+                    "id": "Code-Runner"
+                },
+                {
+                    "group": "Code-Runner@1"
+                },
+                {
+                    "command": "codeRunner.LanguageExecutorMap",
+                    "group": "Code-Runner@1"
+                },
+                {
+                    "group": "ext_settings"
+                }
+            ]
+        }
+    },
+    "extensionDependencies": [
+        "plugin-manager"
+    ],
+    "dependencies": {}
+}

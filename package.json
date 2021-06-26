@@ -17,6 +17,9 @@
         "onCommand:codeRunner.LanguageExecutorMap"
     ],
     "contributes": {
+        "expressions": {
+            "excludeFileType": "langId != 'txt' && langId != 'json' && langId != 'markdown' && langId != 'yaml'"
+        },
         "commands": [{
             "command": "codeRunner.run",
             "title": "Run Code"
@@ -28,7 +31,7 @@
             "editor/context": [{
                     "command": "codeRunner.run",
                     "group": "copy",
-                    "when": "editorTextFocus"
+                    "when": "editorTextFocus && expression.excludeFileType"
                 },
                 {
                     "group": "copy"
@@ -37,7 +40,7 @@
             "explorer/context": [{
                 "command": "codeRunner.run",
                 "group": "openInExplorer",
-                "when": "explorerResourceCount == 1 && !explorerResourceIsWorkspaceFolder"
+                "when": "explorerResourceCount == 1 && !explorerResourceIsWorkspaceFolder && expression.excludeFileType"
             }, {
                 "group": "openInExplorer"
             }],

@@ -81,13 +81,14 @@ class Code {
             // 检查用户设置
             let UserSet = await this.getUserCustomConfig(ext);
             if (SystemEnv == false && UserSet == false) {
+                let msgKey = program ? program : ext;
                 try{
                     let p = program.split(' ')[0];
                     let programWebstie = help[p]["website"];
                     let programName = help[p]["name"];
-                    hx.window.showErrorMessage(`CodeRunner: 当前电脑未检测到 ${program} 运行环境。<br/>请打开官网安装下载相关程序。<a href="${programWebstie}">${programName}官网</a>`, ["我知道了"]);
+                    hx.window.showErrorMessage(`CodeRunner: 当前电脑未检测到 ${msgKey} 运行环境。<br/>请打开官网安装下载相关程序。<a href="${programWebstie}">${programName}官网</a>`, ["我知道了"]);
                 }catch(e){
-                    hx.window.showErrorMessage(`CodeRunner: 当前电脑未检测到 ${program} 运行环境。`, ["我知道了"]);
+                    hx.window.showErrorMessage(`CodeRunner: 当前电脑未检测到 ${msgKey} 运行环境。`, ["我知道了"]);
                 };
                 return;
             };

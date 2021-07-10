@@ -14,7 +14,8 @@
     "main": "./extension",
     "activationEvents": [
         "onCommand:codeRunner.run",
-        "onCommand:codeRunner.LanguageExecutorMap"
+        "onCommand:codeRunner.LanguageExecutorMap",
+        "onCommand:codeRunner.about"
     ],
     "contributes": {
         "expressions": {
@@ -26,6 +27,9 @@
         }, {
             "command": "codeRunner.LanguageExecutorMap",
             "title": "ExecutorMap"
+        }, {
+            "command": "codeRunner.about",
+            "title": "关于"
         }],
         "menus": {
             "editor/context": [{
@@ -56,6 +60,10 @@
                 {
                     "command": "codeRunner.LanguageExecutorMap",
                     "group": "Code-Runner@1"
+                },
+                {
+                    "command": "codeRunner.about",
+                    "group": "Code-Runner@2"
                 },
                 {
                     "group": "ext_settings"

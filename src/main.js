@@ -97,6 +97,12 @@ class Code {
             };
         };
 
+        cmd = `cd ${this.projectPath} && ` + cmd;
+        if (osName != 'darwin') {
+            let drive = this.projectPath.substr(0,1);
+            cmd = `${drive}: && cd ${this.projectPath} && ` + cmd;
+        };
+
         let RunParam = {
             cmd: cmd,
             rootPath: this.projectPath,

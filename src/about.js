@@ -103,7 +103,7 @@ function getServerVersion() {
                         let allPlugins = JSON.parse(data);
                         let {plugins} = allPlugins;
                         for (let s of plugins) {
-                            if (s.name == 'easy-git') {
+                            if (s.name == pluginId) {
                                 myPluginsVersion = s.version;
                                 break;
                             };

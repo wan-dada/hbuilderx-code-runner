@@ -99,7 +99,7 @@ class Code {
 
         if (osName != 'darwin') {
             let drive = this.projectPath.substr(0,1);
-            cmd = `cmd /K "${drive}: && cd ${this.projectPath} && %{cmd}"`;
+            cmd = `cmd /K "${drive}: && cd ${this.projectPath} && ${cmd}"`;
         } else {
             cmd = `cd ${this.projectPath} && ` + cmd;
         };

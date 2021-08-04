@@ -3,7 +3,7 @@
     "name": "code-runner",
     "description": "运行代码/文件到终端，支持Node Js、ts、less、scss、Python、Bash/Shell、c/c++、cmd、Go、PHP、Java等各种语言",
     "displayName": "code-runner",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "oneone",
     "engines": {
         "HBuilderX": "^3.1.19"

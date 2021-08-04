@@ -13,7 +13,7 @@ let language = {
     "pl": "perl",
     "perl": "perl",
     "perl6": "perl6",
-    "java": "java",
+    "java": "javac",
     "js": "node",
     "ts": "tsc",
     "lua": "lua",

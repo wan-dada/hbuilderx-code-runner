@@ -50,6 +50,14 @@ class Code {
             if (runProgramPath == undefined || runProgramPath == '') {
                 return false;
             };
+            if (!fs.existsSync(runProgramPath)) {
+                hx.window.showErrorMessage(`提示：code-runner，ExecutorMap配置中的 ${runProgramPath}路径无效。`, ["查看配置","我知道了"]).then( btn => {
+                    if (btn == "查看配置") {
+                        hx.commands.executeCommand("codeRunner.LanguageExecutorMap");
+                    };
+                });
+                return "error";
+            };
             let stat = fs.statSync(runProgramPath);
             if (stat.isFile()) {
                 return runProgramPath;
@@ -70,16 +78,26 @@ class Code {
         let program = language[ext];
 
         // 组织运行命令
-        let cmd = `${program} ${filename}`;
+        let cmd;
 
         // 特殊程序, 比如shell、bat
         if (specialLanguageList.includes(ext)) {
-            cmd = osName == 'darwin' ? `./${filename}` : filename;
+            if (osName == 'darwin') {
+                cmd = `cd "${this.projectPath}" && ./${filename}`
+            } else {
+                let win32_drive = this.projectPath.substr(0,1);
+                cmd = `${win32_drive}: && cd "${this.projectPath}" && ${UserSet} "${filename}"`;
+            };
         } else {
             // 检查系统
             let SystemEnv = await this.checkProgram(program).catch( error => {return false});
+
             // 检查用户设置
             let UserSet = await this.getUserCustomConfig(ext);
+            if (UserSet == "error") {
+                return;
+            };
+
             if (SystemEnv == false && UserSet == false) {
                 let msgKey = program ? program : ext;
                 try{
@@ -92,16 +110,25 @@ class Code {
                 };
                 return;
             };
-            if (UserSet != false) {
-                cmd = `${UserSet} ${filename}`;
+            if (UserSet) {
+                if (UserSet.indexOf(' ') != -1) {
+                    hx.window.showErrorMessage(`${UserSet}路径包含空格，无法运行，请修改。`, ["我知道了"]);
+                    return;
+                };
+                if (osName == 'win32') {
+                    let drive = this.projectPath.substr(0,1);
+                    cmd = `${drive}: && cd "${this.projectPath}" && ${UserSet} "${filename}"`;
+                } else {
+                    cmd = `cd "${this.projectPath}" && ${UserSet} "${filename}"`;
+                };
+            } else {
+                if (osName == 'win32') {
+                    let drive = this.projectPath.substr(0,1);
+                    cmd = `${drive}: && cd ${this.projectPath} && ${program} "${filename}"`;
+                } else {
+                    cmd = `cd "${this.projectPath}" && ${program} "${filename}"`;
+                };
             };
-        };
-
-        if (osName != 'darwin') {
-            let drive = this.projectPath.substr(0,1);
-            cmd = `cmd /K "${drive}: && cd ${this.projectPath} && ${cmd}"`;
-        } else {
-            cmd = `cd ${this.projectPath} && ` + cmd;
         };
 
         let RunParam = {
